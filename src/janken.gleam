@@ -35,10 +35,12 @@ fn player_intent() -> PlayerIntent {
     Ok(string) -> {
       case string {
         "quit" | "q" -> Quit
-        "rock" | "r" -> Play(hand.Rock)
-        "paper" | "p" -> Play(hand.Paper)
-        "scissors" | "s" -> Play(hand.Scissors)
-        _ -> Invalid
+        _ -> {
+          case hand.from_string(string) {
+            Ok(h) -> Play(h)
+            Error(_) -> Invalid
+          }
+        }
       }
     }
     Error(_) -> {
@@ -48,26 +50,23 @@ fn player_intent() -> PlayerIntent {
   }
 }
 
+fn play_round(player_hand: hand.Hand) {
+  let computer_hand = computer_hand()
+
+  io.println("Computer hand: " <> hand.to_string(computer_hand))
+  io.println("Your hand: " <> hand.to_string(player_hand))
+
+  play(player_hand, computer_hand)
+  |> outcome.to_string
+  |> io.println
+}
+
 fn game() -> PlayerIntent {
   let intent = player_intent()
   case intent {
-    Play(player_hand) -> {
-      let computer_hand = computer_hand()
-
-      io.println("Computer hand: " <> hand.to_string(computer_hand))
-      io.println("Your hand: " <> hand.to_string(player_hand))
-
-      io.println(
-        play(player_hand, computer_hand)
-        |> outcome.to_string,
-      )
-    }
-    Invalid -> {
-      io.println("Invalid input. Please try again.")
-    }
-    Quit -> {
-      io.println("Thanks for playing!")
-    }
+    Play(player_hand) -> play_round(player_hand)
+    Invalid -> io.println("Invalid input. Please try again.")
+    Quit -> io.println("Thanks for playing!")
   }
   intent
 }
