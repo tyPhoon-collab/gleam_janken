@@ -2,11 +2,7 @@ import gleam/int
 import janken/outcome.{type Outcome, Draw, Lose, Win}
 
 pub type Score {
-  Score(
-    wins: Int,
-    losses: Int,
-    draws: Int,
-  )
+  Score(wins: Int, losses: Int, draws: Int)
 }
 
 pub fn new() -> Score {
@@ -22,8 +18,10 @@ pub fn update(score: Score, outcome: Outcome) -> Score {
 }
 
 pub fn to_string(score: Score) -> String {
-  "Wins: " <>
-  int.to_string(score.wins) <>
-  ", Losses: " <>
-  int.to_string(score.losses) <> ", Draws: " <> int.to_string(score.draws)
+  "Wins: "
+  <> int.to_string(score.wins)
+  <> ", Losses: "
+  <> int.to_string(score.losses)
+  <> ", Draws: "
+  <> int.to_string(score.draws)
 }
