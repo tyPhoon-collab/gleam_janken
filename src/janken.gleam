@@ -68,19 +68,18 @@ fn play_round(player_hand: hand.Hand) -> outcome.Outcome {
 
 fn game(current_score: score.Score) -> #(PlayerIntent, score.Score) {
   let intent = player_intent()
-  let next_score =
-    case intent {
-      Play(player_hand) -> {
-        let outcome = play_round(player_hand)
-        let updated_score = score.update(current_score, outcome)
-        io.println("Current score: " <> score.to_string(updated_score))
-        updated_score
-      }
-      Invalid -> {
-        io.println("Invalid input. Please try again.")
-        current_score
-      }
-      Quit -> current_score
+  let next_score = case intent {
+    Play(player_hand) -> {
+      let outcome = play_round(player_hand)
+      let updated_score = score.update(current_score, outcome)
+      io.println("Current score: " <> score.to_string(updated_score))
+      updated_score
     }
+    Invalid -> {
+      io.println("Invalid input. Please try again.")
+      current_score
+    }
+    Quit -> current_score
+  }
   #(intent, next_score)
 }
