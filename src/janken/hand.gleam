@@ -11,3 +11,12 @@ pub fn to_string(hand: Hand) -> String {
     Scissors -> "Scissors"
   }
 }
+
+pub fn from_string(s: String) -> Result(Hand, Nil) {
+  case s {
+    "rock" | "r" -> Ok(Rock)
+    "paper" | "p" -> Ok(Paper)
+    "scissors" | "s" -> Ok(Scissors)
+    _ -> Error(Nil)
+  }
+}
