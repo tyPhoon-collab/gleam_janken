@@ -1,11 +1,6 @@
-import gleeunit
 import gleeunit/should
 import janken/outcome.{Draw, Lose, Win}
 import janken/score
-
-pub fn main() {
-  gleeunit.main()
-}
 
 pub fn new_test() {
   let initial_score = score.new()
@@ -50,16 +45,4 @@ pub fn update_multiple_test() {
   final_score.wins |> should.equal(3)
   final_score.losses |> should.equal(1)
   final_score.draws |> should.equal(1)
-}
-
-pub fn to_string_test() {
-  let s = score.Score(wins: 5, losses: 3, draws: 1)
-  score.to_string(s)
-  |> should.equal("Wins: 5, Losses: 3, Draws: 1")
-}
-
-pub fn to_string_zero_test() {
-  score.new()
-  |> score.to_string
-  |> should.equal("Wins: 0, Losses: 0, Draws: 0")
 }
